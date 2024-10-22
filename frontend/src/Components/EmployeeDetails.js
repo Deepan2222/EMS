@@ -6,22 +6,24 @@ import { GetEmployeeDetailsById } from '../api';
 const EmployeeDetails = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const [employee, setEmployee] = useState({});
+    const [employee, setEmployee] = useState(null); // Initialize as null for better checking
 
     const fetchEmployeeDetails = async () => {
         try {
             const data = await GetEmployeeDetailsById(id);
             setEmployee(data);
         } catch (err) {
-            alert('Error', err);
+            alert('Error: ' + err); // Changed to show error message
         }
-    }
+    };
+
     useEffect(() => {
         fetchEmployeeDetails();
-    }, [id])
+    }, [id]); // Keep id as a dependency
 
+    // Check if employee data is available
     if (!employee) {
-        return <div>Employee not found</div>;
+        return <div>Loading...</div>; // Show loading while fetching
     }
 
     return (
